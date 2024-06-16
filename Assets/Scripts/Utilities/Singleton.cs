@@ -2,9 +2,7 @@ using UnityEngine;
 
 namespace Fractals
 {
-    /// <summary>
-    /// Provides a global access point to a MonoBehaviour
-    /// </summary>
+    /// <summary> Provides a global access point to a MonoBehaviour </summary>
     public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
         static T _instance;
@@ -26,7 +24,7 @@ namespace Fractals
             }
         }
 
-        // Initialization in case of the component is asigned to a GameObject in the hierarchy
+        /// <summary> Initialization in case of the component is asigned to a GameObject in the hierarchy </summary>
         protected virtual void Awake() => _instance ??= this as T;
     }
 }

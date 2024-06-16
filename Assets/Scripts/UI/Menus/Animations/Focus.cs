@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Fractals.UI
 {
+    /// <summary> Allows to focus one panel by hiding the rest and removing the blur </summary>
     public class Focus : MonoBehaviour
     {
         MenuAnimator _animator;

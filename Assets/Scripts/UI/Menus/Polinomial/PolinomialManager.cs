@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Fractals.UI
 {
@@ -28,6 +27,7 @@ namespace Fractals.UI
 
         void Start() => SelectedDegree = 2;
 
+        /// <summary> Sets the coeficients of the selected degree </summary>
         public void SetCoeficient(float coeficient) => Dispatcher.SetCoeficient(_selectedDegree - 1, coeficient);
 
         public void Reset()

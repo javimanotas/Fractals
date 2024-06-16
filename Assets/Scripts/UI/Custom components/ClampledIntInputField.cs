@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Fractals.UI
 {
     /// <summary> Custom implementation of a input field <para>
-    /// If the value set is not on the desired interval, it will be clamped</para> </summary>
+    /// If the value set is not on the desired interval, it will be clamped </para> </summary>
     [RequireComponent(typeof(TMP_InputField))]
     public abstract class ClampledIntInputField : MonoBehaviour
     {
@@ -15,6 +15,7 @@ namespace Fractals.UI
 
         [SerializeField] string SaveName;
 
+        // In case the value wants to be saved
         bool HasPersistentValue => !string.IsNullOrEmpty(SaveName);
 
         int _lastCorrectValue;
@@ -31,13 +32,7 @@ namespace Fractals.UI
 
             _lastCorrectValue = HasPersistentValue ? PlayerPrefs.GetInt(SaveName, Default) : Default;
             _inputField.text = _lastCorrectValue.ToString();
-            OnEndEdit("");
-        }
-
-        public void SetValue(int value)
-        {
-            _inputField.text = value.ToString();
-            OnEndEdit("");
+            OnEndEdit(null);
         }
 
         protected abstract void SubmitChanges(int n);

@@ -2,22 +2,27 @@
 
 #define MAX_DEGREE 10
 
+RWTexture2D<float4> FractalTex;
+
 struct FractalTransform {
     double Size, CenterRe, CenterIm;
 };
 
+// Double precision floating point numbers must be stored in a compute buffer
+// in order to be sent to the gpu
 StructuredBuffer<FractalTransform> TransformBuffer;
-
-RWTexture2D<float4> FractalTex;
 
 bool Julia;
 float JuliaRe;
 float JuliaIm;
+
 bool Invert;
+
+int MaxDegreeUsed;
 float4 Coeficients[MAX_DEGREE];
 
 int MaxIter;
-int AntialiasingSampling;
+int AntialiasingSamples;
 
 int PaletteIndex;
 
@@ -49,24 +54,24 @@ float4 calculateColor(uint iter)
     return pal(t, vec1 / 2, vec1 / 2, vec1, float3(-0.86, 1.02, 1));
 }
 
-uint calculateIterations(double2 acum, double2 add)
+uint calculateIterations(double2 z, double2 add)
 {
     for (uint i = 0; i < MaxIter; i++)
     {
-        double2 lastAcum = acum;
+        double2 lastZ = z;
+        z = double2(0, 0);
         
-        double2 p = double2(1, 0);
-        acum = double2(0, 0);
+        double2 powAcc = double2(1, 0);
         
         for (int j = 0; j < MAX_DEGREE; j++)
         {
-            p = double2(p.x * lastAcum.x - p.y * lastAcum.y, p.x * lastAcum.y + p.y * lastAcum.x);
-            acum += p * Coeficients[j].x;
+            powAcc = double2(powAcc.x * lastZ.x - powAcc.y * lastZ.y, powAcc.x * lastZ.y + powAcc.y * lastZ.x);
+            z += powAcc * Coeficients[j].x;
         }
         
-        acum += add;
+        z += add;
 
-        if (acum.x * acum.x + acum.y * acum.y > 4)
+        if (z.x * z.x + z.y * z.y > 4)
             return i;
     }
     return MaxIter;
@@ -85,14 +90,16 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     double im = (double) id.y / height - 0.5;
     double2 coords = double2(re, im) * transform.Size + double2(transform.CenterRe, transform.CenterIm);
     
-    if (id.x < width && id.y < height)
+    if (id.x < width && id.y < height) // In case the texture size is not divisible by the number of thread groups
     {
         float4 color = float4(0, 0, 0, 0);
         double2 realCoords = coords;
         
-        for (int i = 0; i < AntialiasingSampling; i++)
+        for (int i = 0; i < AntialiasingSamples; i++)
         {
             coords = realCoords;
+            
+            // Antialiasing offset to sample different points inside the pixel and get smoother fractals
             double2 offset;
             if (i == 0)
                 offset = double2(0, 0);
@@ -115,6 +122,6 @@ void CSMain(uint3 id : SV_DispatchThreadID)
             color += calculateColor(iterations);
         }
         
-        FractalTex[id.xy] = color / AntialiasingSampling;
+        FractalTex[id.xy] = color / AntialiasingSamples;
     }
 }

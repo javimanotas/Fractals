@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Fractals
 {
+    /// <summary> Saves the current fractal configuration into a file </summary>
     public class FractalSaver
     {
         readonly FractalDispatcher _dispatcher;

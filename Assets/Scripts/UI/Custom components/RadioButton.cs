@@ -9,7 +9,7 @@ namespace Fractals.UI
     public class RadioButton : MonoBehaviour, IPointerClickHandler
     {
         /// <summary> Represents what of the radio buttons is selected by beeing of the same position <para>
-        /// All RadioButtons with reference of the same SharedImage belong to the same group</para> </summary>
+        /// All RadioButtons with reference of the same SharedImage belong to the same group </para> </summary>
         [SerializeField] RectTransform SharedImage;
 
         [SerializeField] UnityEvent OnClick;
@@ -24,6 +24,7 @@ namespace Fractals.UI
             {
                 SharedImage.position = _rect.position;
 
+                // SharedImage popup animation
                 AnimationController.Instance.AddAnimation(new(
                     cancellationToken: destroyCancellationToken,
                     time: 0.4f,

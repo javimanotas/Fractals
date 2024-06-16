@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Fractals.UI
 {
-    /// <summary> Scaling animatio for a button </summary>
+    /// <summary> Scaling animation for a button </summary>
     [RequireComponent(typeof(RectTransform))]
     public class ButtonScaler : ButtonAnimation
     {
@@ -16,14 +16,22 @@ namespace Fractals.UI
 
         void Start()
         {
-            var image = Instantiate(new GameObject("child image"), GetComponent<RectTransform>())
+            // Creates a new image to be scalled instead of the current one so scaling doesn't conflict with the raycast
+            var image = new GameObject("child image")
                 .AddComponent<Image>();
-            
+            image.transform.SetParent(GetComponent<RectTransform>());
+
+            var rect = image.GetComponent<RectTransform>();
+            rect.anchoredPosition = Vector2.zero;
+            rect.localScale = Vector2.one;
+
             image.raycastTarget = false;
+
             var im = GetComponent<Image>();
             image.sprite = im.sprite;
             image.material = im.material;
             image.SetNativeSize();
+            
             _childRect = image.GetComponent<RectTransform>();
             _defaultScale = _childRect.localScale;
         }

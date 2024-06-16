@@ -22,7 +22,7 @@ namespace Fractals.Animations
         /// <summary> Is called on every step of the animation </summary>
         readonly Action<float> _update;
 
-        public readonly TaskCompletionSource<bool> Completion = new TaskCompletionSource<bool>();
+        public readonly TaskCompletionSource<bool> Completion = new();
 
         public bool Finished
         {

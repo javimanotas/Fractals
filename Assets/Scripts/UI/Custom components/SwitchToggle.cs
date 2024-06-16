@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace Fractals.UI
 {
     /// <summary> Custom implementation of a toggle <para>
-    /// Moves the child image left-right instead of hiding-showing it</para> </summary>
+    /// Moves the child image left-right instead of hiding-showing it </para> </summary>
     [RequireComponent(typeof(Image))]
     public class SwitchToggle : MonoBehaviour, IPointerClickHandler
     {
@@ -34,14 +34,6 @@ namespace Fractals.UI
                 .First(x => x.gameObject != gameObject);
 
             _childLocalX = _child.anchoredPosition.x;
-        }
-
-        public void TurnOn()
-        {
-            if (!IsTurnedOn)
-            {
-                OnPointerClick(null);
-            }
         }
 
         public void SetOn(bool on)

@@ -12,6 +12,7 @@ namespace Fractals.Animations
 
         public void AddAnimation(AnimatedField field) => _animations.Add(field);
 
+        /// <summary> Adds animations that can be awaited </summary>
         public Task AddAsyncAnimation(AnimatedField field)
         {
             _animations.Add(field);

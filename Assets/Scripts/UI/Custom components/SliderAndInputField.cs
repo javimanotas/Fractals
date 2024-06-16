@@ -1,11 +1,12 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Fractals.UI
 {
+    /// <summary> Custom UI component that consists on a slider and a input field (for floats) <para>
+    /// They will act consistently (changing one will affect the other) </para> </summary>
     public class SliderAndInputField : MonoBehaviour
     {
         [SerializeField] UnityEvent<float> OnValueChanged;

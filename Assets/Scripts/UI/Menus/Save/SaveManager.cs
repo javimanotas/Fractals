@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Fractals.UI
 {
+    /// <summary> Interfaces with the UI system and the FractalSaver class </summary>
     public class SaveManager : MonoBehaviour
     {
         [SerializeField] FractalDispatcher Dispatcher;

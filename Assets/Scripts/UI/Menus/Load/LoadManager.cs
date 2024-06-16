@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Fractals.UI
 {
+    /// <summary> Manages the loading UI </summary>
     [RequireComponent(typeof(FractalLoader))]
     public class LoadManager : MonoBehaviour
     {
@@ -42,6 +43,7 @@ namespace Fractals.UI
                 NameText.text = FractalName(savedFractals[0]);
             }
 
+            // if there are no fractals saved, when one is saved will be the selected one
             SaveManager.OnFractalSave += () =>
             {
                 if (_selectedFractalIndex == -1)

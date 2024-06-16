@@ -29,7 +29,6 @@ namespace Fractals.UI
 
         bool _focused = false;
 
-
         void Start()
         {
             _rect = GetComponent<RectTransform>();
@@ -55,6 +54,7 @@ namespace Fractals.UI
             ));
         }
 
+        /// <summary> Used when focusing a panel </summary>
         public async Task ToggleScale(bool isParent)
         {
             if (!isParent)

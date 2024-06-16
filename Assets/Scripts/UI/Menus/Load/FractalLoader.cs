@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Fractals.UI
 {
+    /// <summary> Loads a saved fractal given the lines of the file </summary>
     public class FractalLoader : MonoBehaviour
     {
         [SerializeField] SwitchToggle InvertedSwitch;

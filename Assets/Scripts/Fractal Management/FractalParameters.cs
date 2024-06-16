@@ -8,7 +8,7 @@ namespace Fractals
         /* These are the parameters sent to the compute shader.
          * Each time a parameter is changed, is sent to the GPU and _areChangesOnParameters is set to true.
          * This allows to avoid dispatching the compute shader every frame and do it only when are changes.
-         * To see more detail about the parameters see the actual compute shader (Fractals2D.compute) */
+         * To see more detail about the parameters read README.md or see the actual compute shader (Fractals2D.compute) */
 
         bool _areChangesOnParameters = true;
 
@@ -105,16 +105,16 @@ namespace Fractals
             }
         }
 
-        int _antialiasingSampling;
+        int _antialiasingSamples;
 
-        public int AntialiasingSampling
+        public int AntialiasingSamples
         {
-            get => _antialiasingSampling;
+            get => _antialiasingSamples;
             set
             {
                 _areChangesOnParameters = true;
-                _antialiasingSampling = value;
-                ComputeShader.SetInt("AntialiasingSampling", value);
+                _antialiasingSamples = value;
+                ComputeShader.SetInt("AntialiasingSamples", value);
             }
         }
 
@@ -132,7 +132,7 @@ namespace Fractals
 
         public float GetCoeficient(int index) => _coeficients[index];
 
-        /// <param name="index"> degree - 1</param>
+        /// <param name="index"> degree - 1 </param>
         public void SetCoeficient(int index, float value)
         {
             _areChangesOnParameters = true;
@@ -154,7 +154,7 @@ namespace Fractals
             Invert = false;
             PaletteIndex = 0;
             MaxIter = 100;
-            AntialiasingSampling = 1;
+            AntialiasingSamples = 1;
             ResetCoeficients();
         }
     }
