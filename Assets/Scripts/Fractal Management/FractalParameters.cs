@@ -22,8 +22,15 @@ namespace Fractals
             {
                 _areChangesOnParameters = true;
                 _data[0] = value;
+
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PLATFORM_STANDALONE_WIN
                 _buffer.SetData(_data);
-                ComputeShader.SetBuffer(0, "TransformBuffer", _buffer);
+                _computeShader.SetBuffer(0, "TransformBuffer", _buffer);
+#else
+                _computeShader.SetFloat("Size", (float)_data[0].Size);
+                _computeShader.SetFloat("CenterRe", (float)_data[0].CenterRe);
+                _computeShader.SetFloat("CenterIm", (float)_data[0].CenterIm);
+#endif
             }
         }
 
@@ -36,7 +43,7 @@ namespace Fractals
             {
                 _areChangesOnParameters = true;
                 _julia = value;
-                ComputeShader.SetBool("Julia", value);
+                _computeShader.SetBool("Julia", value);
             }
         }
 
@@ -49,7 +56,7 @@ namespace Fractals
             {
                 _areChangesOnParameters = true;
                 _juliaRe = value;
-                ComputeShader.SetFloat("JuliaRe", value);
+                _computeShader.SetFloat("JuliaRe", value);
             }
         }
 
@@ -62,7 +69,7 @@ namespace Fractals
             {
                 _areChangesOnParameters = true;
                 _juliaIm = value;
-                ComputeShader.SetFloat("JuliaIm", value);
+                _computeShader.SetFloat("JuliaIm", value);
             }
         }
 
@@ -75,7 +82,7 @@ namespace Fractals
             {
                 _areChangesOnParameters = true;
                 _invert = value;
-                ComputeShader.SetBool("Invert", value);
+                _computeShader.SetBool("Invert", value);
             }
         }
 
@@ -88,7 +95,7 @@ namespace Fractals
             {
                 _areChangesOnParameters = true;
                 _paletteIndex = value;
-                ComputeShader.SetInt("PaletteIndex", value);
+                _computeShader.SetInt("PaletteIndex", value);
             }
         }
 
@@ -101,7 +108,7 @@ namespace Fractals
             {
                 _areChangesOnParameters = true;
                 _maxIter = value;
-                ComputeShader.SetInt("MaxIter", value);
+                _computeShader.SetInt("MaxIter", value);
             }
         }
 
@@ -114,7 +121,7 @@ namespace Fractals
             {
                 _areChangesOnParameters = true;
                 _antialiasingSamples = value;
-                ComputeShader.SetInt("AntialiasingSamples", value);
+                _computeShader.SetInt("AntialiasingSamples", value);
             }
         }
 
@@ -142,7 +149,7 @@ namespace Fractals
                 .Select(x => new Vector4(x, 0, 0, 0))
                 .ToArray();
 
-            ComputeShader.SetVectorArray("Coeficients", vectors);
+            _computeShader.SetVectorArray("Coeficients", vectors);
         }
 
         void InitParameters()

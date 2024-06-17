@@ -13782,7 +13782,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e980415301bfa4597494a8ff93dd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ComputeShader: {fileID: 7200000, guid: 788a0a18a6186b243897d5663cdd945c, type: 3}
+  FloatComputeShader: {fileID: 7200000, guid: 8df67284fef5b254886c9e895b81689a, type: 3}
+  DoubleComputeShader: {fileID: 7200000, guid: 788a0a18a6186b243897d5663cdd945c, type: 3}
 --- !u!114 &1867426608
 MonoBehaviour:
   m_ObjectHideFlags: 0

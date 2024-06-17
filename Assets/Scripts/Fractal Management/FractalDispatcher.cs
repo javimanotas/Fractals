@@ -8,7 +8,11 @@ namespace Fractals
     [RequireComponent(typeof(RawImage))]
     public partial class FractalDispatcher : MonoBehaviour
     {
-        [SerializeField] ComputeShader ComputeShader;
+        [SerializeField] ComputeShader FloatComputeShader;
+
+        [SerializeField] ComputeShader DoubleComputeShader;
+
+        ComputeShader _computeShader;
 
         RawImage _outputImage;
 
@@ -39,7 +43,12 @@ namespace Fractals
 
         void Awake()
         {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PLATFORM_STANDALONE_WIN
             _buffer = new(1, sizeof(double) * 3); // The struct has 3 doubles
+            _computeShader = DoubleComputeShader;
+#else
+            _computeShader = FloatComputeShader;
+#endif
             _outputImage = GetComponent<RawImage>();
             
             Scaler.Instance.OnResolutionChanged += OnResolutionChanged;
@@ -69,7 +78,7 @@ namespace Fractals
             }
 
             _outputImage.texture = _renderTex;
-            ComputeShader.SetTexture(0, "FractalTex", _renderTex);
+            _computeShader.SetTexture(0, "FractalTex", _renderTex);
 
             _threadGroupSize = _desiredThreadGroupSize;
             _threadGroupSize.Item1 = Mathf.CeilToInt((float)Screen.width / _threadGroupSize.Item1);
@@ -85,6 +94,6 @@ namespace Fractals
             }
         }
 
-        void DispatchShader() => ComputeShader.Dispatch(0, _threadGroupSize.Item1, _threadGroupSize.Item2, _threadGroupSize.Item3);
+        void DispatchShader() => _computeShader.Dispatch(0, _threadGroupSize.Item1, _threadGroupSize.Item2, _threadGroupSize.Item3);
     }
 }
