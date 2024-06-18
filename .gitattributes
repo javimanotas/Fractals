@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Ensure .compute files are recognized as HLSL
+*.compute linguist-language=HLSL
