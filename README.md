@@ -36,4 +36,4 @@ The program calculates how many iterations you need to apply to diverge to infin
 You can also specify the number of samples used to color each pixel. Be VERY CAREFUL when changing this parameter because it multiplies the WHOLE rendering time by n. It can lead to MASSIVE GPU usage and even cause the program to close due to making VERY EXPENSIVE dispatches on the graphics card. So, if you are just experimenting with different fractal configurations that you are unsure will render smoothly, it SHOULD HAVE a value of 1.
 
 # TO DO
- - Include the 3D fractals
+ - UI for the 3D fractals
