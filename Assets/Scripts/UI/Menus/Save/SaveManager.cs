@@ -7,7 +7,7 @@ namespace Fractals.UI
     /// <summary> Interfaces with the UI system and the FractalSaver class </summary>
     public class SaveManager : MonoBehaviour
     {
-        [SerializeField] FractalDispatcher Dispatcher;
+        [SerializeField] FractalDispatcher2D Dispatcher;
 
         [SerializeField] TMP_InputField InputField;
 

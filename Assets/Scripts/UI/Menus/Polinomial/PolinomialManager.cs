@@ -6,7 +6,7 @@ namespace Fractals.UI
     /// <summary> Modifies the polinomial coeficients of the fractal </summary>
     public class PolinomialManager : MonoBehaviour
     {
-        [SerializeField] FractalDispatcher Dispatcher;
+        [SerializeField] FractalDispatcher2D Dispatcher;
 
         [SerializeField] TMP_InputField DegreeInputField;
 

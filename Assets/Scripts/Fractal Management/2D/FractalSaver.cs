@@ -7,13 +7,13 @@ namespace Fractals
     /// <summary> Saves the current fractal configuration into a file </summary>
     public class FractalSaver
     {
-        readonly FractalDispatcher _dispatcher;
+        readonly FractalDispatcher2D _dispatcher;
 
         public static string SavePath => Application.persistentDataPath;
 
         public static string FileExtension => ".fractal2d";
 
-        public FractalSaver(FractalDispatcher dispatcher) => _dispatcher = dispatcher;
+        public FractalSaver(FractalDispatcher2D dispatcher) => _dispatcher = dispatcher;
 
         public void Save(string fileName)
         {

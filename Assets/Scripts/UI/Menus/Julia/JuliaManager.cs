@@ -5,7 +5,7 @@ namespace Fractals.UI
     /// <summary> Modifies Julia set parameters </summary>
     public class JuliaManager : MonoBehaviour
     {
-        [SerializeField] FractalDispatcher Dispatcher;
+        [SerializeField] FractalDispatcher2D Dispatcher;
 
         [SerializeField] SwitchToggle Switch;
 

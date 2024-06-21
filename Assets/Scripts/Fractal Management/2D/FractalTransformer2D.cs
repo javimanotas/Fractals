@@ -5,9 +5,9 @@ using UnityEngine.EventSystems;
 namespace Fractals
 {
     /// <summary> Transforms the zoom and offset of the fractal </summary>
-    public class FractalTransformer : MonoBehaviour, IDragHandler
+    public class FractalTransformer2D : MonoBehaviour, IDragHandler
     {
-        [SerializeField] FractalDispatcher Dispatcher;
+        [SerializeField] FractalDispatcher2D Dispatcher;
 
         const float _ZOOM_SPEED = 1.05f;
 

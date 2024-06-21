@@ -2,7 +2,7 @@
 {
     /// <summary> Data sent to the compute shader in a buffer (only the data that requires double precision) </summary>
     [System.Serializable]
-    public struct FractalTransform
+    public struct FractalTransform2D
     {
         /// <summary> Height in complex plane units of the screen </summary>
         public double Size;

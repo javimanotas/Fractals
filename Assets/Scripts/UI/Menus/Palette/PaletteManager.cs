@@ -6,7 +6,7 @@ namespace Fractals.UI
     /// <summary> Changes between palettes both in UI and in the fractal </summary>
     public class PaletteManager : MonoBehaviour
     {
-        [SerializeField] FractalDispatcher Dispatcher;
+        [SerializeField] FractalDispatcher2D Dispatcher;
 
         [SerializeField] Material Mat;
 

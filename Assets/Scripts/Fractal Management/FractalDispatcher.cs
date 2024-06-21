@@ -1,29 +1,26 @@
+﻿using Fractals.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using Fractals.UI;
 
 namespace Fractals
 {
-    /// <summary> Renders the fractal into an image after executing the compute shader </summary>
-    [RequireComponent(typeof(RawImage))]
-    public partial class FractalDispatcher : MonoBehaviour
+    public abstract class FractalDispatcher : MonoBehaviour
     {
-        [SerializeField] ComputeShader FloatComputeShader;
-
-        [SerializeField] ComputeShader DoubleComputeShader;
-
-        ComputeShader _computeShader;
+        protected ComputeShader ComputeShader;
 
         RawImage _outputImage;
 
         RenderTexture _renderTex;
 
         readonly (int, int, int) _desiredThreadGroupSize = (8, 8, 1);
-        
+
         // Is created dinamically in case of the size of the screen is not divisible by the desired size
         (int, int, int) _threadGroupSize;
 
-        ComputeBuffer _buffer;
+        /* Each time a parameter is changed, is sent to the GPU and _areChangesOnParameters is set to true.
+         * This allows to avoid dispatching the compute shader every frame and do it only when are changes.
+         * To see more detail about the parameters read README.md or see the actual compute shader */
+        protected bool AreChangesOnParameters = true;
 
         float _resolution = 1f;
 
@@ -39,23 +36,18 @@ namespace Fractals
             }
         }
 
-        void OnDestroy() => _buffer?.Dispose(); // Garbage collector doesn't manage this, need to free manually
-
         void Awake()
         {
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PLATFORM_STANDALONE_WIN
-            _buffer = new(1, sizeof(double) * 3); // The struct has 3 doubles
-            _computeShader = DoubleComputeShader;
-#else
-            _computeShader = FloatComputeShader;
-#endif
             _outputImage = GetComponent<RawImage>();
-            
             Scaler.Instance.OnResolutionChanged += OnResolutionChanged;
-            
+            AssignComputeShader();
             InitParameters();
             CreateRenderTexture();
         }
+
+        protected abstract void AssignComputeShader();
+
+        protected abstract void InitParameters();
 
         void OnResolutionChanged()
         {
@@ -78,22 +70,21 @@ namespace Fractals
             }
 
             _outputImage.texture = _renderTex;
-            _computeShader.SetTexture(0, "FractalTex", _renderTex);
+            ComputeShader.SetTexture(0, "FractalTex", _renderTex);
 
             _threadGroupSize = _desiredThreadGroupSize;
             _threadGroupSize.Item1 = Mathf.CeilToInt((float)Screen.width / _threadGroupSize.Item1);
             _threadGroupSize.Item2 = Mathf.CeilToInt((float)Screen.height / _threadGroupSize.Item2);
         }
-
         void Update()
         {
-            if (_areChangesOnParameters)
+            if (AreChangesOnParameters)
             {
-                _areChangesOnParameters = false;
+                AreChangesOnParameters = false;
                 DispatchShader();
             }
         }
 
-        void DispatchShader() => _computeShader.Dispatch(0, _threadGroupSize.Item1, _threadGroupSize.Item2, _threadGroupSize.Item3);
+        void DispatchShader() => ComputeShader.Dispatch(0, _threadGroupSize.Item1, _threadGroupSize.Item2, _threadGroupSize.Item3);
     }
 }

@@ -1758,7 +1758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4519b89a886558419605a4b4e697622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
   XCoordinate: {fileID: 1930819038}
   YCoordinate: {fileID: 228608246}
   Size: {fileID: 1269842219}
@@ -2195,7 +2195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9def6a32d063742801e000820a4874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
 --- !u!114 &228608246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2590,7 +2590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9def6a32d063742801e000820a4874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 0}
 --- !u!1 &284856519
 GameObject:
   m_ObjectHideFlags: 0
@@ -2780,7 +2780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9a4223d6949174419098ead9d9d4cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
   MinValue: 1
   MaxValue: 100
   Default: 100
@@ -3284,7 +3284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10be7ba77398d540ac15243f45bd656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
 --- !u!114 &335299033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3753,7 +3753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aef360da30fc2c41858a9d57cf3b052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
   MinValue: 1
   MaxValue: 2500
   Default: 100
@@ -6702,7 +6702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d257abf6bd34943bbdb1e3755a1e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
   DegreeInputField: {fileID: 1942177143}
   Coeficient: {fileID: 48492566}
 --- !u!1 &859107433
@@ -8436,7 +8436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f201d6fcbb4b824fa64393cc3b2cf78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
   InputField: {fileID: 447394073}
 --- !u!1 &1056521476
 GameObject:
@@ -9934,7 +9934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4503c99aceb74574f8c53f85aa3bf395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
   Switch: {fileID: 335299033}
 --- !u!1 &1208950089
 GameObject:
@@ -10218,7 +10218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54b7c7419b1ad7c43bb570348bb1b225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
   MinValue: 1
   MaxValue: 9
   Default: 1
@@ -10309,7 +10309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9def6a32d063742801e000820a4874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
 --- !u!114 &1269842219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13734,7 +13734,7 @@ GameObject:
   - component: {fileID: 1867426604}
   - component: {fileID: 1867426606}
   - component: {fileID: 1867426608}
-  - component: {fileID: 1867426607}
+  - component: {fileID: 1867426610}
   - component: {fileID: 1867426609}
   m_Layer: 5
   m_Name: Fractal image
@@ -13770,20 +13770,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1867426603}
   m_CullTransparentMesh: 1
---- !u!114 &1867426607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867426603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89e980415301bfa4597494a8ff93dd3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FloatComputeShader: {fileID: 7200000, guid: 8df67284fef5b254886c9e895b81689a, type: 3}
-  DoubleComputeShader: {fileID: 7200000, guid: 788a0a18a6186b243897d5663cdd945c, type: 3}
 --- !u!114 &1867426608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13823,7 +13809,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 243636ab65855834eb9b14cf4eeb8a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
+--- !u!114 &1867426610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867426603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e980415301bfa4597494a8ff93dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FloatComputeShader: {fileID: 7200000, guid: 8df67284fef5b254886c9e895b81689a, type: 3}
+  DoubleComputeShader: {fileID: 7200000, guid: 788a0a18a6186b243897d5663cdd945c, type: 3}
 --- !u!1 &1875392533
 GameObject:
   m_ObjectHideFlags: 0
@@ -14054,7 +14054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d852ea2d1cdb7ad449ee6e0d24376058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
   Mat: {fileID: 2100000, guid: ae34dba829e8ad74aac4db966bfd0b1f, type: 2}
   RadioButtons:
   - {fileID: 1056521482}
@@ -14142,7 +14142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9def6a32d063742801e000820a4874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
 --- !u!114 &1930819038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14762,7 +14762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a76fb575859e24f8b4585593d4655b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
   MinValue: 1
   MaxValue: 10
   Default: 2
@@ -14887,7 +14887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10be7ba77398d540ac15243f45bd656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426607}
+  Dispatcher: {fileID: 1867426610}
 --- !u!114 &1992914201
 MonoBehaviour:
   m_ObjectHideFlags: 0

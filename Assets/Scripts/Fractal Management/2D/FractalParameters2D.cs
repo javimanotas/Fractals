@@ -3,33 +3,26 @@ using UnityEngine;
 
 namespace Fractals
 {
-    public partial class FractalDispatcher
+    public partial class FractalDispatcher2D
     {
-        /* These are the parameters sent to the compute shader.
-         * Each time a parameter is changed, is sent to the GPU and _areChangesOnParameters is set to true.
-         * This allows to avoid dispatching the compute shader every frame and do it only when are changes.
-         * To see more detail about the parameters read README.md or see the actual compute shader (Fractals2D.compute) */
-
-        bool _areChangesOnParameters = true;
-
         // Needs to be an array in order to be sent to a buffer
-        readonly FractalTransform[] _data = new FractalTransform[1];
+        readonly FractalTransform2D[] _data = new FractalTransform2D[1];
 
-        public FractalTransform FractalTransform
+        public FractalTransform2D FractalTransform
         {
             get => _data[0];
             set
             {
-                _areChangesOnParameters = true;
+                AreChangesOnParameters = true;
                 _data[0] = value;
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PLATFORM_STANDALONE_WIN
-                _buffer.SetData(_data);
-                _computeShader.SetBuffer(0, "TransformBuffer", _buffer);
+                Buffer.SetData(_data);
+                ComputeShader.SetBuffer(0, "TransformBuffer", Buffer);
 #else
-                _computeShader.SetFloat("Size", (float)_data[0].Size);
-                _computeShader.SetFloat("CenterRe", (float)_data[0].CenterRe);
-                _computeShader.SetFloat("CenterIm", (float)_data[0].CenterIm);
+                ComputeShader.SetFloat("Size", (float)_data[0].Size);
+                ComputeShader.SetFloat("CenterRe", (float)_data[0].CenterRe);
+                ComputeShader.SetFloat("CenterIm", (float)_data[0].CenterIm);
 #endif
             }
         }
@@ -41,9 +34,9 @@ namespace Fractals
             get => _julia;
             set
             {
-                _areChangesOnParameters = true;
+                AreChangesOnParameters = true;
                 _julia = value;
-                _computeShader.SetBool("Julia", value);
+                ComputeShader.SetBool("Julia", value);
             }
         }
 
@@ -54,9 +47,9 @@ namespace Fractals
             get => _juliaRe;
             set
             {
-                _areChangesOnParameters = true;
+                AreChangesOnParameters = true;
                 _juliaRe = value;
-                _computeShader.SetFloat("JuliaRe", value);
+                ComputeShader.SetFloat("JuliaRe", value);
             }
         }
 
@@ -67,9 +60,9 @@ namespace Fractals
             get => _juliaIm;
             set
             {
-                _areChangesOnParameters = true;
+                AreChangesOnParameters = true;
                 _juliaIm = value;
-                _computeShader.SetFloat("JuliaIm", value);
+                ComputeShader.SetFloat("JuliaIm", value);
             }
         }
 
@@ -80,9 +73,9 @@ namespace Fractals
             get => _invert;
             set
             {
-                _areChangesOnParameters = true;
+                AreChangesOnParameters = true;
                 _invert = value;
-                _computeShader.SetBool("Invert", value);
+                ComputeShader.SetBool("Invert", value);
             }
         }
 
@@ -93,9 +86,9 @@ namespace Fractals
             get => _paletteIndex;
             set
             {
-                _areChangesOnParameters = true;
+                AreChangesOnParameters = true;
                 _paletteIndex = value;
-                _computeShader.SetInt("PaletteIndex", value);
+                ComputeShader.SetInt("PaletteIndex", value);
             }
         }
 
@@ -106,9 +99,9 @@ namespace Fractals
             get => _maxIter;
             set
             {
-                _areChangesOnParameters = true;
+                AreChangesOnParameters = true;
                 _maxIter = value;
-                _computeShader.SetInt("MaxIter", value);
+                ComputeShader.SetInt("MaxIter", value);
             }
         }
 
@@ -119,9 +112,9 @@ namespace Fractals
             get => _antialiasingSamples;
             set
             {
-                _areChangesOnParameters = true;
+                AreChangesOnParameters = true;
                 _antialiasingSamples = value;
-                _computeShader.SetInt("AntialiasingSamples", value);
+                ComputeShader.SetInt("AntialiasingSamples", value);
             }
         }
 
@@ -142,17 +135,17 @@ namespace Fractals
         /// <param name="index"> degree - 1 </param>
         public void SetCoeficient(int index, float value)
         {
-            _areChangesOnParameters = true;
+            AreChangesOnParameters = true;
             _coeficients[index] = value;
 
             var vectors = _coeficients
                 .Select(x => new Vector4(x, 0, 0, 0))
                 .ToArray();
 
-            _computeShader.SetVectorArray("Coeficients", vectors);
+            ComputeShader.SetVectorArray("Coeficients", vectors);
         }
 
-        void InitParameters()
+        protected override void InitParameters()
         {
             FractalTransform = new() { Size = 2.5f, CenterRe = -0.5f };
             Julia = false;

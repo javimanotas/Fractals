@@ -6,7 +6,7 @@ namespace Fractals.UI
     /// <summary> Displays the center and size of the fractal </summary>
     public class FractalTransformDisplay : MonoBehaviour
     {
-        [SerializeField] FractalDispatcher Dispatcher;
+        [SerializeField] FractalDispatcher2D Dispatcher;
 
         [SerializeField] TextMeshProUGUI XCoordinate;
 
