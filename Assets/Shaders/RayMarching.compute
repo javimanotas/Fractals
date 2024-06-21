@@ -1,0 +1,283 @@
+#pragma kernel CSMain
+#define MAXDST 1000
+#define MAXSTEP 2000
+
+// Valores modificados de manera externa
+RWTexture2D<half4> FractalTex;
+float4x4 _CamToWorld;
+float4x4 _CamInverseProj;
+float3 _LightDir;
+float3 _ColA;
+float3 _ColB;
+float4 _BgColA;
+float4 _BgColB;
+
+
+float _Epsilon;
+bool _Mirror;
+float _Power;
+float2 _Rot;
+float3 _Menger;
+
+// Propiedades de cada rayo y su creacion
+struct Ray
+{
+    half3 origin;
+    half3 direction;
+};
+
+Ray CreateRay(half2 uv)
+{
+    Ray ray;
+    // Se multiplica por las matrices de proyeccion de la camara para obtener posicion y direccion (mul)
+    ray.origin = mul(_CamToWorld, half4(0, 0, 0, 1)).xyz;
+    half3 direction = mul(_CamInverseProj, half4(uv, 0, 1)).xyz;
+    ray.direction = normalize(mul(_CamToWorld, half4(direction, 0)).xyz);
+    return ray;
+}
+
+half3 RotateAxis(half3 v, half phi, half theta, half omega)
+{
+    // Multiplica el vector v por las matrices de rotacion
+    float3x3 xAxis =
+    {
+        {1, 0, 0},
+        {0, cos(phi), -sin(phi)},
+        {0, sin(phi), cos(phi)}
+    };
+    float3x3 yAxis =
+    {
+        {cos(theta), 0, sin(theta)},
+        {0, 1, 0},
+        {-sin(theta), 0, cos(theta)}
+    };
+    float3x3 zAxis =
+    {
+        {cos(omega), -sin(omega), 0},
+        {sin(omega), cos(omega), 0},
+        {0, 0, 1}
+    };
+
+    return mul(zAxis, mul(yAxis, mul(xAxis, v)));
+}
+
+half3 RotatePoint(half3 v, half phi, half theta)
+{
+    if (abs(phi) <= 0.01 && abs(theta) <= 0.01)
+        return v;    
+
+    // Lo pasa a polar e incrementa los angulos
+    half r = length(v);
+    half alpha = acos(v.z / r);
+    half beta = atan2(v.y, v.x);
+    alpha += phi;
+    beta += theta;
+
+    return r * half3(sin(alpha) * cos(beta), sin(alpha) * sin(beta), cos(alpha));
+}
+
+half2 Mandelbulb(half3 pos)
+{
+    half3 v = pos;
+    half dModulus= 1;
+    half modulus = 0;
+    int i;
+
+    for (i = 0; i < 10; i++)
+    {
+        modulus = length(v);
+   	    if (modulus > 2)
+           break;
+
+        // Iteracion de la derivada de x al exponente empleado * el valor anterior de la iteracion + 1 para calcular la distancia
+        dModulus = _Power * pow(modulus, _Power - 1.0) * dModulus + 1;
+       
+        // Se le aplica la misma transformacion que en el conjunto de Mandelbrot
+        half alpha = acos(v.z / modulus);
+        half beta = atan2(v.y, v.x);
+        half newModulus = pow(modulus, _Power);
+        alpha *= _Power;
+        beta *= _Power;
+        v = newModulus * half3(sin(alpha) * cos(beta), sin(beta) * sin(alpha), cos(alpha));
+        v += pos;
+    }
+
+    return half2(i, 0.5 * log(modulus) * modulus / dModulus);
+}
+
+half2 Sierpinski(half3 pos)
+{
+    pos = RotateAxis(pos, 3.89, 0, 0);
+    pos = RotatePoint(pos, 0, 3.94);
+
+    half r = dot(pos, pos);
+    half temp;
+    int i;
+
+    for (i = 0; i < 15 && r < 100; i++)
+    {
+        // Permite distorsiones al rotar el punto en cada iteracion
+        pos = RotatePoint(pos, _Rot.x, _Rot.y);
+
+        // A continuacion las diversas simetrias que constituyen el fractal
+        if (pos.x + pos.y < 0)
+        {
+            temp = -pos.y;
+            pos.y = -pos.x;
+            pos.x = temp;
+        }
+
+        if (pos.x + pos.z < 0)
+        {
+            temp = -pos.z;
+            pos.z = -pos.x;
+            pos.x = temp;
+        }
+
+        if (pos.y + pos.z < 0)
+        {
+            temp = -pos.z;
+            pos.z = -pos.y;
+            pos.y = temp;
+        }
+
+        pos.x = 2 * pos.x - 1;
+        pos.y = 2 * pos.y - 1;
+        pos.z = 2 * pos.z - 1;
+        r = dot(pos, pos);
+    }
+    return half2(4, (sqrt(r) - 2) * pow(2, (-i)));
+}
+
+half2 Menger(half3 pos)
+{
+    half r = dot(pos, pos);
+    half temp;
+    int i;
+
+    for (i = 0; i < 10 && r < 100; i++)
+    {
+        // Permite distorsiones al rotar el punto en cada iteracion
+        pos = RotatePoint(pos, _Rot.x, _Rot.y);
+
+        pos.x = abs(pos.x);
+        pos.y = abs(pos.y);
+        pos.z = abs(pos.z);
+
+        // A continuacion las diversas simetrias que constituyen el fractal
+        if (pos.x - pos.y < 0)
+        {
+            temp = pos.y;
+            pos.y = pos.x;
+            pos.x = temp;
+        }
+
+        if (pos.x - pos.z < 0)
+        {
+            temp = pos.z;
+            pos.z = pos.x; 
+            pos.x = temp;
+        }
+
+        if (pos.y - pos.z < 0) 
+        {
+            temp = pos.z;
+            pos.z = pos.y;
+            pos.y = temp;
+        }
+
+        pos.x = 3 * pos.x - _Menger.x * 2;
+        pos.y = 3 * pos.y - _Menger.y * 2;
+        pos.z = 3 * pos.z;
+
+        if (pos.z > _Menger.z)
+            pos.z -= _Menger.z * 2;
+
+        r = dot(pos, pos);
+    }
+    return half2(4, (length(pos) - 2) * pow(3,-i));
+}
+
+// Provoca que el espacio se repita cada u unidades
+half3 Mod(half3 pos, half u)
+{
+    while (pos.x >= u - 1)
+        pos.x -= u;
+    while (pos.x < -u + 1)
+        pos.x += u;
+
+    while (pos.y >= u - 1)
+        pos.y -= u;
+    while (pos.y < -u + 1)
+        pos.y += u;
+
+    while (pos.z >= u - 1)
+        pos.z -= u;
+    while (pos.z < -u + 1)
+        pos.z += u;
+
+    return pos;
+}
+
+// Determina las distancias a los fractales y devuelve la menor
+half2 SceneInfo(half3 pos)
+{
+    if (_Mirror)
+        return Menger(Mod(pos, 2));
+
+    half2 b = Mandelbulb(pos);
+    half2 s = Sierpinski(half3(pos.x, pos.y - 4, pos.z));
+    half2 m = Menger(half3(pos.x, pos.y - 8, pos.z));
+
+    half2 temp = b.y < s.y ? b : s;
+    return temp.y < m.y ? temp : m;
+}
+
+// Calcula la normal de la superficie en un punto p
+half3 EstimateNormal(half3 p)
+{
+    half x = SceneInfo(half3(p.x + _Epsilon, p.y, p.z)).y - SceneInfo(half3(p.x - _Epsilon, p.y, p.z)).y;
+    half y = SceneInfo(half3(p.x, p.y + _Epsilon, p.z)).y - SceneInfo(half3(p.x, p.y - _Epsilon, p.z)).y;
+    half z = SceneInfo(half3(p.x, p.y, p.z + _Epsilon)).y - SceneInfo(half3(p.x, p.y, p.z - _Epsilon)).y;
+    return normalize(half3(x, y, z));
+}
+
+[numthreads(8, 8, 1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    uint width;
+    uint height;
+    FractalTex.GetDimensions(width, height);
+
+    half2 uv = id.xy / half2(width, height);
+    half4 result = lerp(_BgColA, _BgColB, uv.y);
+    
+    // Se crea el rayo correspondiente al pixel id
+    Ray ray = CreateRay(uv * 2 - 1);
+    half rayDst = 0;
+    int marchSteps = 0;
+
+    while (rayDst < MAXDST && marchSteps < MAXSTEP)
+    {
+        marchSteps++;
+        half2 sceneInfo = SceneInfo(ray.origin);
+        half dst = sceneInfo.y;
+        
+        // El rayo colisiona
+        if (dst <= _Epsilon)
+        {
+            half3 normal = EstimateNormal(ray.origin - ray.direction * _Epsilon * 2);
+            half colorA = saturate(dot(normal * 0.5 + 0.5, -_LightDir));
+            half colorB = saturate(sceneInfo.x / 16);
+            half3 colorC = saturate(colorA * _ColA + colorB * _ColB);
+            result = half4(colorC.xyz, 1);
+            break;
+        }
+
+        ray.origin += ray.direction * dst;
+        rayDst += dst;
+    }
+
+    half power = _Mirror ? 0.7 : 1;
+    FractalTex[id.xy] = result * pow(abs(marchSteps), power) / 8;
+}
