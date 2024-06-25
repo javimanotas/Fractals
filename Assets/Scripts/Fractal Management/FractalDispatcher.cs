@@ -45,6 +45,8 @@ namespace Fractals
             CreateRenderTexture();
         }
 
+        protected virtual void OnDestroy() => Scaler.Instance.OnResolutionChanged -= OnResolutionChanged;
+
         protected abstract void AssignComputeShader();
 
         protected abstract void InitParameters();

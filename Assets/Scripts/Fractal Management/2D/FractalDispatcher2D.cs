@@ -15,7 +15,11 @@ namespace Fractals
 
         ComputeBuffer Buffer => _buffer ??= new(1, sizeof(double) * 3); // The struct has 3 doubles
 
-        void OnDestroy() => _buffer?.Dispose(); // Garbage collector doesn't manage this, need to free manually
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            _buffer?.Dispose(); // Garbage collector doesn't manage this, need to free manually
+        }
 
         protected override void AssignComputeShader()
         {
