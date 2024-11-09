@@ -24,7 +24,7 @@ namespace Fractals.UI
 
             if (_animator == null)
             {
-                _animator = FindObjectOfType<MenuAnimator>();
+                _animator = FindFirstObjectByType<MenuAnimator>();
             }
 
             if (_parent == null)

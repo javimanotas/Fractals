@@ -34,7 +34,7 @@ namespace Fractals.UI
                 )
             };
 
-            foreach (var highlighter in _highlighters ??= FindObjectsOfType<HighlighterTinter>())
+            foreach (var highlighter in _highlighters ??= FindObjectsByType<HighlighterTinter>(FindObjectsSortMode.None))
             {
                 highlighter.SetColor(highlightColor);
             }

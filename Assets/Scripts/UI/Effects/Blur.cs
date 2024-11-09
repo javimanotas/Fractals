@@ -12,7 +12,7 @@ namespace Fractals.UI
 
         void Start()
         {
-            var volume = FindObjectOfType<Volume>();
+            var volume = FindFirstObjectByType<Volume>();
 
             if (volume.profile.TryGet<DepthOfField>(out var depthOfField))
             {

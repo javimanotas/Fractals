@@ -115,7 +115,7 @@ namespace Fractals
         protected override void InitParameters()
         {
             Camera = Camera.main;
-            LightDir = FindObjectOfType<Light>().transform.forward;
+            LightDir = FindFirstObjectByType<Light>().transform.forward;
 
             ColA = new(1, 1, 1, 1);
             ColB = new(1, 1, 1, 1);
