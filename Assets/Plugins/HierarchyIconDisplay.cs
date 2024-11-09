@@ -32,9 +32,23 @@ public static class HierarchyIconDisplay
             return;
         }
 
-        var component = components.Length > 1 ? components[1] : components[0];
-        var type = component.GetType();
+        Component component;
 
+        if (components.Length == 1)
+        {
+            component = components[0];
+        }
+        else
+        {
+            component = components[1];
+
+            if (component is CanvasRenderer && components.Length > 2)
+            {
+                component = components[2];
+            }
+        }
+        
+        var type = component.GetType();
         var content = EditorGUIUtility.ObjectContent(component, type);
         content.text = null;
         content.tooltip = type.Name;
