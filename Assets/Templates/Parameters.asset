@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d266f029656da1428fc5df533ebff8f, type: 3}
+  m_Name: Parameters
+  m_EditorClassIdentifier: 
+  Offset: 1.5707964
+  Halo: 25
+  BgBlending: 0.04
+  ColorVariation: 0.64
+  HueOffset: 3.3
+  HueRange: 3.5
+  DarkCorrection: 0.55
+  Contrast: 0.5
+  Saturation: 0.3
+  OuterVignette: 0.6
+  InnerVignette: 0.64
+  Test: 0

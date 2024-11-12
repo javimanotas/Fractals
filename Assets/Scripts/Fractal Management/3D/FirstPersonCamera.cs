@@ -42,7 +42,7 @@ namespace Fractals
                 transform.position += input * (_SPEED * Time.deltaTime);
                 transform.eulerAngles += rot * (_ROT_SPEED * Time.deltaTime);
 
-                Dispatcher.Camera = _cam;
+                //Dispatcher.Camera = _cam;
             }
         }
     }

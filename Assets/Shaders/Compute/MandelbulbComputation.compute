@@ -1,0 +1,227 @@
+#pragma kernel CSMain
+
+#define EPSILON 0.001
+#define PIXEL_DETAIL 5
+
+RWTexture2D<float4> FractalTex;
+float3 CamPos;
+float3 LightDir;
+float Time;
+
+float3 BgColor;
+float3 HaloColor;
+float3 BulbColor;
+float3 Tint;
+
+float Offset;
+float Halo;
+float BgBlending;
+float ColorVariation;
+float HueOffset;
+float HueRange;
+float DarkCorrection;
+float Contrast;
+float Saturation;
+float OuterVignette;
+float InnerVignette;
+float Test;
+
+float2 mandelbulbInfo(float3 z0)
+{
+    const float POWER = 10;
+    const int MAX_ITERATIONS = 10;
+    
+    float3 zn = z0;
+    float r;
+    float dr = 1;
+    float minR = 1;
+    
+    for (int i = 0; i < MAX_ITERATIONS; i++)
+    {
+        r = length(zn);
+        
+        if (r > 2)
+        {
+            break;
+        }
+        
+        dr = dr * pow(r, POWER - 1) * POWER + 1;
+	
+        float theta = atan(zn.y / zn.x) - Offset - Time;
+        float phi = asin(zn.z / r) + Offset + Time;
+		
+        theta = theta * POWER;
+        phi = phi * POWER;
+        r = pow(r, POWER);
+		
+        zn = r * float3(cos(theta) * cos(phi), sin(theta) * cos(phi), sin(phi)) + z0;
+        minR = min(minR, r);
+    }
+    
+    return float2(r * log(r) / dr / 2, minR);
+}
+
+float softShadow(float3 rayOrigin, float3 rayDir)
+{
+    const float INTENSITY = 30;
+    const float MAX_ITERATIONS = 50;
+    const float INTERSECTION_SHADOW = 0.02;
+    
+    float strength = 1;
+    float step = 0.01;
+    
+    for (int i = 0; i < MAX_ITERATIONS; i++)
+    {
+        float dst = mandelbulbInfo(rayOrigin + rayDir * step).x;
+        
+        if (dst < EPSILON)
+        {
+            return INTERSECTION_SHADOW;
+        }
+        
+        step += dst;
+        strength = min(strength, INTENSITY * dst / step);
+    }
+    
+    return strength;
+}
+
+float3 normalAt(in float3 pos)
+{
+    float3 epsilon = float3(EPSILON, 0, 0);
+    
+    float x = mandelbulbInfo(pos + epsilon.xyy).x - mandelbulbInfo(pos - epsilon.xyy).x;
+    float y = mandelbulbInfo(pos + epsilon.yxy).x - mandelbulbInfo(pos - epsilon.yxy).x;
+    float z = mandelbulbInfo(pos + epsilon.yyx).x - mandelbulbInfo(pos - epsilon.yyx).x;
+    
+    return normalize(float3(x, y, z));
+}
+
+float2 intersectionInfo(float3 rayOrigin, float3 rayDir, float pixelDetail)
+{
+    const float MAX_ITERATIONS = 75;
+    const float MAX_STEP = 20;
+    const float CORRECTION = 1000;
+    
+    float step = 1;
+    float stepInc = 0;
+    float pixelError = 1;
+    float minError = pixelError + EPSILON;
+    float closeDst = 0;
+    float dstCorrection = CORRECTION;
+    float2 result;
+    
+    for (int i = 0; i < MAX_ITERATIONS && pixelError >= pixelDetail && step <= MAX_STEP; i++)
+    {
+        float2 bulb = mandelbulbInfo(rayOrigin + rayDir * step);
+
+        if (bulb.x > closeDst)
+        {
+            closeDst = 0.4 * bulb.x * bulb.x / dstCorrection;
+            stepInc = bulb.x + closeDst;
+            dstCorrection = bulb.x;
+        }
+        else
+        {
+            stepInc = -closeDst;
+            closeDst = 0;
+            dstCorrection = CORRECTION;
+            bulb.x = 1;
+        }
+
+        pixelError = bulb.x / step;
+
+        if (pixelError < minError)
+        {
+            minError = pixelError;
+            result = float2(step, bulb.y);
+        }
+        
+        step += stepInc;
+    }
+
+    return step <= MAX_STEP ? result : -1;
+}
+
+float3 darkCorrection(float3 col, float strength)
+{
+    return pow(col, strength);
+}
+
+float3 contrast(float3 col, float strength)
+{
+    float3 maxContrast = smoothstep(0, 1, col);
+    return lerp(col, maxContrast, strength);
+}
+
+float3 saturation(float3 col, float strength)
+{
+    float gray = dot(col, 1) / 3;
+    return lerp(gray, col, 1 + strength);
+}
+
+float3 vignette(float3 col, float outerStrength, float innerStrength, float2 screenUV)
+{
+    float dst = 16 * screenUV.x * (1 - screenUV.x) * screenUV.y * (1 - screenUV.y);
+    float brightness = (1 - outerStrength) + outerStrength * pow(abs(dst), innerStrength);
+    return col * brightness;
+}
+
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    float width;
+    float height;
+    FractalTex.GetDimensions(width, height);
+    bool horizontalDisplay = width > height;
+    
+    float2 screenUV = id.xy / float2(width, height);
+    float2 uv = 2 * screenUV - 1;
+    
+    if (horizontalDisplay)
+    {
+        uv.x *= width / height;
+    }
+    else
+    {
+        uv.y *= height / width;
+    }
+    
+    float3 forward = normalize(-CamPos);
+    float3 right = normalize(cross(float3(0, 1, 0), forward));
+    float3 up = normalize(cross(right, forward));
+    float3 rayDir = normalize(uv.x * right + uv.y * up + 3 * forward);
+    
+    float3 bg = exp((horizontalDisplay ? uv : screenUV).y - 2) * BgColor;
+    float3 col = bg + HaloColor * pow(abs(dot(forward, rayDir)), Halo);
+
+    float2 info = intersectionInfo(CamPos, rayDir, 1 / (width.x * PIXEL_DETAIL));
+    
+    if (info.x > 0)
+    {
+        float3 hitPoint = CamPos + info.x * rayDir;
+        float3 normal = normalAt(hitPoint);
+        float shadow = softShadow(hitPoint, LightDir);
+
+        float incidence = 4.5 * max(0, dot(normal, LightDir));
+        float bac = 0.8 * max(0, dot(-float3(LightDir.x, 1, LightDir.z), normal));
+        float spe = 3 * pow(max(0, dot(LightDir, reflect(rayDir, normal))), 10);
+
+        info.y = pow(abs(info.y), ColorVariation);
+
+        float3 lin = Tint * incidence * shadow + bac + spe * shadow * Tint;
+        float3 tc0 = 0.5 + 0.5 * sin(HueOffset + HueRange * info.y + BulbColor);
+        
+        col = lin * Tint * 0.3 * tc0;
+
+        col = lerp(col, bg, 1 - exp(-BgBlending * info.x * info.x));
+    }
+
+    col = clamp(col, 0, 1);
+    col = darkCorrection(col, DarkCorrection);
+    col = contrast(col, Contrast);
+    col = saturation(col, Saturation);
+    col = vignette(col, OuterVignette, InnerVignette, screenUV);
+    
+    FractalTex[id.xy] = float4(col.xyz, 1);
+}
