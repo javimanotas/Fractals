@@ -26,7 +26,7 @@ namespace Fractals.UI
                 cancellationToken: destroyCancellationToken,
                 time: 0.4f,
                 backwards: FractalImage.color.r < 0.7f,
-                update: f => FractalImage.color = Color.white * Mathf.Lerp(1, 0.5f, f)
+                update: f => FractalImage.color = (Color.white * Mathf.Lerp(1, 0.5f, f)).WithAlpha(1)
             ));
 
             Blur.Toggle();
