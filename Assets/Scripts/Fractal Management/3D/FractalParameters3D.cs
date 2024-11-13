@@ -8,8 +8,6 @@ namespace Fractals
 
         [SerializeField] BulbParameters Parameters;
 
-        [SerializeField] bool Animate = false;
-
         [SerializeField] Camera Cam;
 
         [SerializeField] Light MainLight;
@@ -33,7 +31,7 @@ namespace Fractals
         {
             ComputeShader.SetVector("CamPos", Cam.transform.position);
             ComputeShader.SetVector("Forward", Cam.transform.forward);
-            ComputeShader.SetFloat("Time", Animate ? -Time.time / 7 + Mathf.PI / 2 : 0);
+            ComputeShader.SetFloat("Time", -Time.time / 7 + Mathf.PI / 2);
             AreChangesOnParameters = true;
             base.Update();
         }

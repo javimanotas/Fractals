@@ -34,6 +34,7 @@ namespace Fractals
             if (input != Vector3.zero || rot != Vector3.zero)
             {
                 transform.position += input * (_SPEED * Time.deltaTime);
+                transform.position = transform.position.WithMagnitudeClamped(2.1f, 5.5f);
                 transform.eulerAngles += rot * (_ROT_SPEED * Time.deltaTime);
             }
         }
