@@ -78,7 +78,8 @@ namespace Fractals
             _threadGroupSize.Item1 = Mathf.CeilToInt((float)Screen.width / _threadGroupSize.Item1);
             _threadGroupSize.Item2 = Mathf.CeilToInt((float)Screen.height / _threadGroupSize.Item2);
         }
-        void Update()
+
+        protected virtual void Update()
         {
             if (AreChangesOnParameters)
             {

@@ -5,6 +5,7 @@
 
 RWTexture2D<float4> FractalTex;
 float3 CamPos;
+float3 Forward;
 float3 LightDir;
 float Time;
 
@@ -24,7 +25,6 @@ float Contrast;
 float Saturation;
 float OuterVignette;
 float InnerVignette;
-float Test;
 
 float2 mandelbulbInfo(float3 z0)
 {
@@ -187,13 +187,12 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         uv.y *= height / width;
     }
     
-    float3 forward = normalize(-CamPos);
-    float3 right = normalize(cross(float3(0, 1, 0), forward));
-    float3 up = normalize(cross(right, forward));
-    float3 rayDir = normalize(uv.x * right + uv.y * up + 3 * forward);
+    float3 right = normalize(cross(float3(0, 1, 0), Forward));
+    float3 up = normalize(cross(Forward, right));
+    float3 rayDir = normalize(uv.x * right + uv.y * up + 3 * Forward);
     
     float3 bg = exp((horizontalDisplay ? uv : screenUV).y - 2) * BgColor;
-    float3 col = bg + HaloColor * pow(abs(dot(forward, rayDir)), Halo);
+    float3 col = bg + HaloColor * pow(abs(dot(Forward, rayDir)), Halo);
 
     float2 info = intersectionInfo(CamPos, rayDir, 1 / (width.x * PIXEL_DETAIL));
     
