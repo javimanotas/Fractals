@@ -4,7 +4,21 @@ namespace Fractals
 {
     public partial class FractalDispatcher3D
     {
-        [SerializeField] BulbPalette Palette;
+        [SerializeField] BulbPalette _palette;
+
+        public BulbPalette Palette
+        {
+            private get => _palette;
+            set
+            {
+                _palette = value;
+
+                foreach (var (key, v) in Palette)
+                {
+                    ComputeShader.SetVector(key, v);
+                }
+            }
+        }
 
         [SerializeField] BulbParameters Parameters;
 
@@ -16,10 +30,7 @@ namespace Fractals
         {
             ComputeShader.SetVector("LightDir", MainLight.transform.forward);
 
-            foreach (var (key, value) in Palette)
-            {
-                ComputeShader.SetVector(key, value);
-            }
+            Palette = Palette;
 
             foreach (var (key, value) in Parameters)
             {

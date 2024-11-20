@@ -9,18 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d266f029656da1428fc5df533ebff8f, type: 3}
+  m_Script: {fileID: 11500000, guid: a2b1c5fd4d202134f92b7c805c70b2ac, type: 3}
   m_Name: Reds
   m_EditorClassIdentifier: 
-  Offset: 1.5707964
-  Halo: 25
-  BgBlending: 0.04
-  ColorVariation: 0.64
-  HueOffset: 3.3
-  HueRange: 3.5
-  DarkCorrection: 0.55
-  Contrast: 0.5
-  Saturation: 0.3
-  OuterVignette: 0.6
-  InnerVignette: 0.64
-  Test: 0
+  BgColor: {r: 1, g: 0.1713007, b: 0.1490196, a: 1}
+  HaloColor: {r: 1, g: 0.7026068, b: 0.5019608, a: 1}
+  BulbColor: {r: 1, g: 0.29155123, b: 0, a: 1}
+  Tint: {r: 1, g: 0.8446055, b: 0.78039217, a: 1}

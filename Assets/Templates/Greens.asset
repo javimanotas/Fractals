@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2b1c5fd4d202134f92b7c805c70b2ac, type: 3}
-  m_Name: Blues 1
+  m_Name: Greens
   m_EditorClassIdentifier: 
-  BgColor: {r: 0.149, g: 0.3617, b: 1, a: 1}
-  HaloColor: {r: 0.5, g: 0.75, b: 1, a: 1}
-  BulbColor: {r: 0, g: 0.666, b: 1, a: 1}
-  Tint: {r: 1, g: 0.824, b: 0.78, a: 1}
+  BgColor: {r: 0.1490196, g: 1, b: 0.38436902, a: 1}
+  HaloColor: {r: 0.8681823, g: 1, b: 0.5019608, a: 1}
+  BulbColor: {r: 0.03896141, g: 1, b: 0, a: 1}
+  Tint: {r: 1, g: 0.8446055, b: 0.78039217, a: 1}

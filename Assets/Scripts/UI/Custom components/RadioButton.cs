@@ -16,7 +16,7 @@ namespace Fractals.UI
 
         RectTransform _rect;
 
-        void Start()
+        void Awake()
         {
             _rect = GetComponent<RectTransform>();
 
