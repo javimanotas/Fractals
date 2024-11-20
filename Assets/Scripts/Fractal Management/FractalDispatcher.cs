@@ -73,10 +73,10 @@ namespace Fractals
 
             _outputImage.texture = _renderTex;
             ComputeShader.SetTexture(0, "FractalTex", _renderTex);
-
+            
             _threadGroupSize = _desiredThreadGroupSize;
-            _threadGroupSize.Item1 = Mathf.CeilToInt((float)Screen.width / _threadGroupSize.Item1);
-            _threadGroupSize.Item2 = Mathf.CeilToInt((float)Screen.height / _threadGroupSize.Item2);
+            _threadGroupSize.Item1 = Mathf.CeilToInt(Screen.width * _resolution / _threadGroupSize.Item1);
+            _threadGroupSize.Item2 = Mathf.CeilToInt(Screen.height * _resolution / _threadGroupSize.Item2);
         }
 
         protected virtual void Update()

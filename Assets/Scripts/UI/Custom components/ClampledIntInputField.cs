@@ -9,7 +9,7 @@ namespace Fractals.UI
     [RequireComponent(typeof(TMP_InputField))]
     public abstract class ClampledIntInputField : MonoBehaviour
     {
-        [SerializeField] protected FractalDispatcher2D Dispatcher;
+        [SerializeField] protected FractalDispatcher Dispatcher;
 
         [SerializeField] int MinValue, MaxValue, Default;
 

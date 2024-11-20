@@ -7,8 +7,6 @@ namespace Fractals.UI
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class FpsManager : MonoBehaviour
     {
-        [SerializeField] FractalDispatcher2D Dispatcher;
-
         TextMeshProUGUI _fpsText;
 
         readonly int[] _avaliableFps = { 30, 60, 120, 144, 240 };
