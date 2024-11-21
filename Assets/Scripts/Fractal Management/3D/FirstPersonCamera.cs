@@ -22,7 +22,7 @@ namespace Fractals
             if (Input.GetKey(KeyCode.D)) input += Right;
             if (Input.GetKey(KeyCode.A)) input -= Right;
             if (Input.GetKey(KeyCode.Q)) input += Vector3.up;
-            if (Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.LeftCommand)) input -= Vector3.up;
+            if (Input.GetKey(KeyCode.E)) input -= Vector3.up;
 
             var rot = Vector3.zero;
 

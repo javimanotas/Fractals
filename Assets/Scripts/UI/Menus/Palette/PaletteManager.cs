@@ -55,7 +55,7 @@ namespace Fractals.UI
             Mat.SetColor("_DarkColor", darkColor);
             Mat.SetColor("_LightColor", lightColor);
 
-            PlayerPrefs.SetInt("Palette", index);
+            PlayerPrefs.SetInt(Name, index);
         }
     }
 }
