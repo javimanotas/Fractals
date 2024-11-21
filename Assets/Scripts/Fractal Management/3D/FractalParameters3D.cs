@@ -43,6 +43,7 @@ namespace Fractals
             ComputeShader.SetVector("CamPos", Cam.transform.position);
             ComputeShader.SetVector("Forward", Cam.transform.forward);
             ComputeShader.SetFloat("Time", -Time.time / 7 + Mathf.PI / 2);
+
             AreChangesOnParameters = true;
             base.Update();
         }

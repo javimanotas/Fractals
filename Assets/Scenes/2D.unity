@@ -3253,7 +3253,6 @@ GameObject:
   - component: {fileID: 335299035}
   - component: {fileID: 335299034}
   - component: {fileID: 335299033}
-  - component: {fileID: 335299032}
   - component: {fileID: 335299036}
   m_Layer: 5
   m_Name: Switch
@@ -3283,19 +3282,6 @@ RectTransform:
   m_AnchoredPosition: {x: 280, y: 0}
   m_SizeDelta: {x: 86, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &335299032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335299030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c10be7ba77398d540ac15243f45bd656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Dispatcher: {fileID: 1867426610}
 --- !u!114 &335299033
 MonoBehaviour:
   m_ObjectHideFlags: 0

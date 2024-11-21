@@ -37,12 +37,66 @@ namespace Fractals
             }
         }
 
+        bool _julia;
+
+        public bool Julia
+        {
+            get => _julia;
+            set
+            {
+                AreChangesOnParameters = true;
+                _julia = value;
+                ComputeShader.SetBool("Julia", value);
+            }
+        }
+
+        float _juliaRe;
+
+        public float JuliaRe
+        {
+            get => _juliaRe;
+            set
+            {
+                if (Time.timeSinceLevelLoad > 0.2f)
+                {
+                    Julia = true;
+                }
+
+                AreChangesOnParameters = true;
+                _juliaRe = value;
+                ComputeShader.SetFloat("JuliaRe", value);
+            }
+        }
+
+        float _juliaIm;
+
+        public float JuliaIm
+        {
+            get => _juliaIm;
+            set
+            {
+                if (Time.timeSinceLevelLoad > 0.2f)
+                {
+                    Julia = true;
+                }
+
+                AreChangesOnParameters = true;
+                _juliaIm = value;
+                ComputeShader.SetFloat("JuliaIm", value);
+            }
+        }
+
         void Awake()
         {
             _outputImage = GetComponent<RawImage>();
             Scaler.Instance.OnResolutionChanged += OnResolutionChanged;
             AssignComputeShader();
+
+            Julia = false;
+            JuliaRe = 0;
+            JuliaIm = 0;
             InitParameters();
+    
             CreateRenderTexture();
         }
 
@@ -82,6 +136,7 @@ namespace Fractals
 
         protected virtual void Update()
         {
+
             if (AreChangesOnParameters)
             {
                 AreChangesOnParameters = false;

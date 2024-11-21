@@ -13,6 +13,10 @@ float3 Forward;
 float3 LightDir;
 float Time;
 
+bool Julia;
+float JuliaRe;
+float JuliaIm;
+
 float3 BgColor;
 float3 HaloColor;
 float3 BulbColor;
@@ -34,36 +38,71 @@ float InnerVignette;
 of coordinates and aditional data of the calculations to improve coloring */
 float2 mandelbulbInfo(float3 z0)
 {
-    const float POWER = 10;
-    const int MAX_ITERATIONS = 10;
+    if (!Julia)
+    {
+        const float POWER = 10;
+        const int MAX_ITERATIONS = 10;
     
+        float3 zn = z0;
+        float r;
+        float dr = 1;
+        float minR = 1;
+    
+        for (int i = 0; i < MAX_ITERATIONS; i++)
+        {
+            r = length(zn);
+        
+            if (r > 2)
+            {
+                break;
+            }
+        
+            dr = dr * pow(r, POWER - 1) * POWER + 1;
+	
+            float theta = atan(zn.y / zn.x) - Offset - Time;
+            float phi = asin(zn.z / r) + Offset + Time;
+		
+            theta = theta * POWER;
+            phi = phi * POWER;
+            r = pow(r, POWER);
+		
+            zn = r * float3(cos(theta) * cos(phi), sin(theta) * cos(phi), sin(phi)) + z0;
+            minR = min(minR, r);
+        }
+    
+        return float2(r * log(r) / dr / 2, minR);
+    }
+    
+    const float POWER = 8;
+    const int MAX_ITERATIONS = 12;
+
     float3 zn = z0;
     float r;
     float dr = 1;
     float minR = 1;
-    
+
     for (int i = 0; i < MAX_ITERATIONS; i++)
     {
         r = length(zn);
         
-        if (r > 2)
+        if (r > 4)
         {
             break;
         }
-        
+
         dr = dr * pow(r, POWER - 1) * POWER + 1;
-	
-        float theta = atan(zn.y / zn.x) - Offset - Time;
+
+        float theta = atan2(zn.y, zn.x) - Offset - Time;
         float phi = asin(zn.z / r) + Offset + Time;
-		
+
         theta = theta * POWER;
         phi = phi * POWER;
         r = pow(r, POWER);
-		
-        zn = r * float3(cos(theta) * cos(phi), sin(theta) * cos(phi), sin(phi)) + z0;
+
+        zn = r * float3(cos(theta) * cos(phi), sin(theta) * cos(phi), sin(phi)) + float3(JuliaRe, 0, JuliaIm);
         minR = min(minR, r);
     }
-    
+
     return float2(r * log(r) / dr / 2, minR);
 }
 

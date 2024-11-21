@@ -27,45 +27,6 @@ namespace Fractals
             }
         }
 
-        bool _julia;
-
-        public bool Julia
-        {
-            get => _julia;
-            set
-            {
-                AreChangesOnParameters = true;
-                _julia = value;
-                ComputeShader.SetBool("Julia", value);
-            }
-        }
-
-        float _juliaRe;
-
-        public float JuliaRe
-        {
-            get => _juliaRe;
-            set
-            {
-                AreChangesOnParameters = true;
-                _juliaRe = value;
-                ComputeShader.SetFloat("JuliaRe", value);
-            }
-        }
-
-        float _juliaIm;
-
-        public float JuliaIm
-        {
-            get => _juliaIm;
-            set
-            {
-                AreChangesOnParameters = true;
-                _juliaIm = value;
-                ComputeShader.SetFloat("JuliaIm", value);
-            }
-        }
-
         bool _invert;
 
         public bool Invert
@@ -148,9 +109,7 @@ namespace Fractals
         protected override void InitParameters()
         {
             FractalTransform = new() { Size = 2.5f, CenterRe = -0.5f };
-            Julia = false;
-            JuliaRe = 0;
-            JuliaIm = 0;
+
             Invert = false;
             PaletteIndex = 0;
             MaxIter = 100;
