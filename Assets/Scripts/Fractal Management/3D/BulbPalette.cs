@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Fractals
 {
+    /// <summary> Color palettes for the mandelbulb fractal </summary>
     [CreateAssetMenu(fileName = "Bulb palette ", menuName = "Bulb palette")]
     public class BulbPalette : ScriptableObject, IEnumerable<(string, Color)>
     {
@@ -17,6 +18,8 @@ namespace Fractals
         
         [SerializeField] Color Tint = new(1, 0.824f, 0.78f);
 
+        /* All the properties are included automatically to the enumerator so
+        be carefull and don't add porperties with type different than Color */
         public IEnumerator<(string, Color)> GetEnumerator() => GetType()
             .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
             .Where(field => field.FieldType == typeof(Color))

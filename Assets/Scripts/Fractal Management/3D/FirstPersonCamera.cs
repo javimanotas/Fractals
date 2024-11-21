@@ -2,6 +2,7 @@
 
 namespace Fractals
 {
+    /// <summary> Controls the position and orientation of a 3D cam </summary>
     [RequireComponent(typeof(Camera))]
     public class FirstPersonCamera : MonoBehaviour
     {

@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Fractals
 {
+    /// <summary> Parameters for rendering me mandelbulb fractal </summary>
     [CreateAssetMenu(fileName = "Bulb params ", menuName = "Bulb params")]
     public class BulbParameters : ScriptableObject, IEnumerable<(string, float)>
     {
@@ -31,6 +32,8 @@ namespace Fractals
     
         [Range(0, 1), SerializeField] float InnerVignette = 0.64f;
 
+        /* All the properties are included automatically to the enumerator so
+        be carefull and don't add porperties with type different than float */
         public IEnumerator<(string, float)> GetEnumerator() => GetType()
             .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
             .Where(field => field.FieldType == typeof(float))

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 namespace Fractals
 {
+    /// <summary> Renders the fractal into an image after executing the compute shader </summary>
     public abstract class FractalDispatcher : MonoBehaviour
     {
         protected ComputeShader ComputeShader;
