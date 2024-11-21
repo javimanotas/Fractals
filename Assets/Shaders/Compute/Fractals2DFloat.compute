@@ -1,4 +1,6 @@
-﻿// Unfortunately linux doesnt support double precision on shaders
+﻿/* Unfortunately some platforms (e.g. linux) don't support double precision on
+compute shaders so this one is used instead. The code is exactly the same as
+Fractals2D.compute so to see the docs open that file. */
 
 #pragma kernel CSMain
 
@@ -29,7 +31,6 @@ float PseudorandomFloat(float2 seed)
     return frac(sin(dot(seed, float2(12.9898, 78.233))) * 43758.5453);
 }
 
-//https://www.shadertoy.com/view/ll2GD3
 float4 pal(float t, float3 a, float3 b, float3 c, float3 d)
 {
     float3 col = a + b * cos(6.28318 * (c * t + d));
@@ -86,7 +87,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     float im = (float) id.y / height - 0.5;
     float2 coords = float2(re, im) * Size + float2(CenterRe, CenterIm);
     
-    if (id.x < width && id.y < height) // In case the texture size is not divisible by the number of thread groups
+    if (id.x < width && id.y < height)
     {
         float4 color = float4(0, 0, 0, 0);
         float2 realCoords = coords;
@@ -95,7 +96,6 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         {
             coords = realCoords;
             
-            // Antialiasing offset to sample different points inside the pixel and get smoother fractals
             float2 offset;
             if (i == 0)
                 offset = float2(0, 0);

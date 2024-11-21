@@ -8,8 +8,8 @@ struct FractalTransform {
     double Size, CenterRe, CenterIm;
 };
 
-// Double precision floating point numbers must be stored in a compute buffer
-// in order to be sent to the gpu
+/* Double precision floating point numbers must be stored in a compute buffer
+in order to be sent to the gpu */
 StructuredBuffer<FractalTransform> TransformBuffer;
 
 bool Julia;
@@ -31,7 +31,7 @@ float PseudorandomFloat(float2 seed)
     return frac(sin(dot(seed, float2(12.9898, 78.233))) * 43758.5453);
 }
 
-//https://www.shadertoy.com/view/ll2GD3
+// credits to: https://www.shadertoy.com/view/ll2GD3
 float4 pal(float t, float3 a, float3 b, float3 c, float3 d)
 {
     float3 col = a + b * cos(6.28318 * (c * t + d));

@@ -1,3 +1,7 @@
+/* The mandelbulb is rendered using raymarching. There are lots of resources on
+the internet explaining how it works so i decided not to add that on the code
+to make it cleaner */
+
 #pragma kernel CSMain
 
 #define EPSILON 0.001
@@ -26,6 +30,8 @@ float Saturation;
 float OuterVignette;
 float InnerVignette;
 
+/* returns a tuple consisting on the distance of the given point to the center
+of coordinates and aditional data of the calculations to improve coloring */
 float2 mandelbulbInfo(float3 z0)
 {
     const float POWER = 10;
@@ -97,6 +103,8 @@ float3 normalAt(in float3 pos)
     return normalize(float3(x, y, z));
 }
 
+/* returns the distance to the scenes objects and the additional information
+calculated with the sdf of the mandelbulb */
 float2 intersectionInfo(float3 rayOrigin, float3 rayDir, float pixelDetail)
 {
     const float MAX_ITERATIONS = 75;
@@ -143,6 +151,7 @@ float2 intersectionInfo(float3 rayOrigin, float3 rayDir, float pixelDetail)
     return step <= MAX_STEP ? result : -1;
 }
 
+// changes brightness of the darker colors
 float3 darkCorrection(float3 col, float strength)
 {
     return pow(col, strength);
