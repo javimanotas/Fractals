@@ -33,7 +33,7 @@ namespace Fractals.UI
         {
             _rect = GetComponent<RectTransform>();
             _hidedPosition = _rect.anchoredPosition;
-            _targetPosition = _rect.anchoredPosition - (Vertical ? Vector2.up * 1266 : Vector2.right * (_rect.anchoredPosition.x * 2));
+            _targetPosition = _rect.anchoredPosition - (Vertical ? Vector2.up * 1240 : Vector2.right * (_rect.anchoredPosition.x * 2));
             _panels.Add(this);
         }
 
@@ -69,7 +69,7 @@ namespace Fractals.UI
             }
             else
             {
-                var desiredPos = new Vector2(-1194.5f, 645) + _rect.sizeDelta * new Vector2(0.5f, -0.5f);
+                var desiredPos = new Vector2(72, -50) + _rect.sizeDelta * new Vector2(0.5f, -0.5f);
 
                 await AnimationController.Instance.AddAsyncAnimation(new(
                     cancellationToken: destroyCancellationToken,
