@@ -9,6 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/2D.unity
     guid: 21bcd9a157ce6d34fa83ea537cb71be6
   - enabled: 1
-    path: Assets/Scenes/3D.unity
-    guid: 6233cf14db1374e4db3f84d83241f053
+    path: Assets/Scenes/Mandelbulb.unity
+    guid: 202d9a5e98f5c0745b5f14d0a6df79bb
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
