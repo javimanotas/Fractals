@@ -17,8 +17,13 @@ namespace Fractals.UI
 
         [SerializeField] PolinomialManager PolinomialManager;
 
+        // Prevents UI for changing unexpectedly. See JuliaManger for more details
+        public static bool IsAnyoneLoading { get; private set; } = false;
+
         public void Load(IEnumerable<string> lines)
         {
+            IsAnyoneLoading = true;
+
             foreach (var line in lines)
             {
                 var tokens = line.Split(':');
@@ -43,6 +48,8 @@ namespace Fractals.UI
 
                 PolinomialManager.SelectedDegree = selectedDegree;
             }
+
+            IsAnyoneLoading = false;
         }
     }
 }

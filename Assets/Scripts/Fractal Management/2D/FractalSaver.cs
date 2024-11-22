@@ -20,9 +20,9 @@ namespace Fractals
             var lines = new List<string>
             {
                 $"Inverted plane: {_dispatcher.Invert}",
-                $"Julia: {_dispatcher.Julia}",
                 $"Julia Real: {_dispatcher.JuliaRe}",
                 $"Julia Imaginary: {_dispatcher.JuliaIm}",
+                $"Julia: {_dispatcher.Julia}",
             };
 
             for (var i = 0; i < _dispatcher.NumCoeficients; i++)

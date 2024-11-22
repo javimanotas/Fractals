@@ -57,11 +57,6 @@ namespace Fractals
             get => _juliaRe;
             set
             {
-                if (Time.timeSinceLevelLoad > 0.2f)
-                {
-                    Julia = true;
-                }
-
                 AreChangesOnParameters = true;
                 _juliaRe = value;
                 ComputeShader.SetFloat("JuliaRe", value);
@@ -75,11 +70,6 @@ namespace Fractals
             get => _juliaIm;
             set
             {
-                if (Time.timeSinceLevelLoad > 0.2f)
-                {
-                    Julia = true;
-                }
-
                 AreChangesOnParameters = true;
                 _juliaIm = value;
                 ComputeShader.SetFloat("JuliaIm", value);
