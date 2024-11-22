@@ -2879,7 +2879,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1201178173}
   m_HandleRect: {fileID: 1785626711}
   m_Direction: 0
-  m_MinValue: -2
+  m_MinValue: 0
   m_MaxValue: 2
   m_WholeNumbers: 0
   m_Value: 0
@@ -4298,8 +4298,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RayComputeShader: {fileID: 7200000, guid: 9341bc51b5cae2343a16025893904ac6, type: 3}
   _palette: {fileID: 11400000, guid: 27eaa1dc3bf09e649931201ff24cb036, type: 2}
-  a: 0
-  c: 0
   Parameters: {fileID: 11400000, guid: 39c2cfc5c6f011c43a5cca59a3aa2077, type: 2}
   Cam: {fileID: 1424873718}
   MainLight: {fileID: 1497054572}
@@ -6607,7 +6605,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 508961130}
   m_HandleRect: {fileID: 2120259993}
   m_Direction: 0
-  m_MinValue: -2
+  m_MinValue: 0
   m_MaxValue: 2
   m_WholeNumbers: 0
   m_Value: 0

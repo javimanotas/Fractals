@@ -73,8 +73,8 @@ float2 mandelbulbInfo(float3 z0)
         return float2(r * log(r) / dr / 2, minR);
     }
     
-    const float POWER = 8;
-    const int MAX_ITERATIONS = 12;
+    const float POWER = 10;
+    const int MAX_ITERATIONS = 10;
 
     float3 zn = z0;
     float r;
