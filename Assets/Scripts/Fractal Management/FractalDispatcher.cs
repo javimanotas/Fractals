@@ -13,6 +13,20 @@ namespace Fractals
 
         RenderTexture _renderTex;
 
+        public byte[] RenderTextureBytes
+        {
+            get
+            {
+                RenderTexture.active = _renderTex;
+
+                var texture = new Texture2D(_renderTex.width, _renderTex.height, TextureFormat.RGB24, false);
+                texture.ReadPixels(new Rect(0, 0, _renderTex.width, _renderTex.height), 0, 0);
+                texture.Apply();
+
+                return texture.EncodeToPNG();
+            }
+        }
+
         readonly (int, int, int) _desiredThreadGroupSize = (8, 8, 1);
 
         // Is created dinamically in case of the size of the screen is not divisible by the desired size
