@@ -35,7 +35,7 @@ namespace Fractals
                 File.Delete(SavePath);
             }
 
-            File.WriteAllLines(Path.Combine(SavePath, $"{fileName}.fractal2d"), lines);
+            File.WriteAllLines(Path.Combine(SavePath, $"{fileName}{FileExtension}"), lines);
         }
     }
 }
