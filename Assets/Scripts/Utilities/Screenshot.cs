@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Fractals
 {
+    /// <summary> Saves the fractal as a png </summary>
     public class Screenshot : MonoBehaviour
     {
         [SerializeField] FractalDispatcher Dispatcher;
