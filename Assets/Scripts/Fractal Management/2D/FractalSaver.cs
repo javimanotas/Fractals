@@ -15,19 +15,22 @@ namespace Fractals
 
         public FractalSaver(FractalDispatcher2D dispatcher) => _dispatcher = dispatcher;
 
-        public void Save(string fileName)
+        public void Save(string fileName, List<string> lines = null)
         {
-            var lines = new List<string>
+            if (lines == null)
             {
-                $"Inverted plane: {_dispatcher.Invert}",
-                $"Julia Real: {_dispatcher.JuliaRe}",
-                $"Julia Imaginary: {_dispatcher.JuliaIm}",
-                $"Julia: {_dispatcher.Julia}",
-            };
+                lines = new List<string>
+                {
+                    $"Inverted plane: {_dispatcher.Invert}",
+                    $"Julia Real: {_dispatcher.JuliaRe}",
+                    $"Julia Imaginary: {_dispatcher.JuliaIm}",
+                    $"Julia: {_dispatcher.Julia}",
+                };
 
-            for (var i = 0; i < _dispatcher.NumCoeficients; i++)
-            {
-                lines.Add($"Coeficient{i + 1}: {_dispatcher.GetCoeficient(i)}");
+                for (var i = 0; i < _dispatcher.NumCoeficients; i++)
+                {
+                    lines.Add($"Coeficient{i + 1}: {_dispatcher.GetCoeficient(i)}");
+                }
             }
 
             if (File.Exists(SavePath))

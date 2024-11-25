@@ -15,7 +15,16 @@ namespace Fractals.UI
 
         public event Action OnFractalSave;
 
-        void Start() => _saver = new(Dispatcher);
+        void Awake()
+        {
+            _saver = new(Dispatcher);
+
+            if (PlayerPrefs.GetInt("First time running application", 1) != 0)
+            {
+                DefaultSavedFractals.Save(_saver);
+                PlayerPrefs.SetInt("First time running application", 0);
+            }
+        }
 
         public void SaveCurrentFractalParameters()
         {
