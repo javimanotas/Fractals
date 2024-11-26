@@ -12,6 +12,7 @@ namespace Fractals
             set
             {
                 _palette = value;
+                AreChangesOnParameters = true;
 
                 foreach (var (key, v) in Palette)
                 {
@@ -24,7 +25,24 @@ namespace Fractals
 
         [SerializeField] Camera Cam;
 
+        (Vector3, Vector3)? _camTransform = null;
+
+        (Vector3, Vector3) CamTransform => (Cam.transform.position, Cam.transform.forward);
+
         [SerializeField] Light MainLight;
+
+        float _time;
+
+        public float Time
+        {
+            get => _time;
+            set
+            {
+                _time = value;
+                ComputeShader.SetFloat("Time", _time);
+                AreChangesOnParameters = true;
+            }
+        }
 
         protected override void InitParameters()
         {
@@ -40,11 +58,14 @@ namespace Fractals
 
         protected override void Update()
         {
-            ComputeShader.SetVector("CamPos", Cam.transform.position);
-            ComputeShader.SetVector("Forward", Cam.transform.forward);
-            ComputeShader.SetFloat("Time", -Time.time / 7 + Mathf.PI / 2);
-
-            AreChangesOnParameters = true;
+            if (_camTransform is null || _camTransform != CamTransform)
+            {
+                _camTransform = CamTransform;
+                ComputeShader.SetVector("CamPos", _camTransform.Value.Item1);
+                ComputeShader.SetVector("Forward", _camTransform.Value.Item2);
+                AreChangesOnParameters = true;
+            }
+            
             base.Update();
         }
     }
