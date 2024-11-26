@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _DarkColor: {r: 0.098, g: 0.0627, b: 0.0861, a: 1}
-    - _LightColor: {r: 1, g: 0.5123, b: 0.468, a: 1}
+    - _DarkColor: {r: 0.0619, g: 0.0619, b: 0.0999, a: 1}
+    - _LightColor: {r: 0.4666, g: 0.764, b: 0.996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
