@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2f6d1d47c20bf314c8d6134472e7e6ca
+guid: ce997844590ebe34a93f6871e328c2b2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8330931603240133573
-    second: PaletteBig_0
+      213: 3412276296268572843
+    second: DoublePanel_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PaletteBig_0
+      name: DoublePanel_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 537
-        height: 371
+        height: 284
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5c3243b672a6d9370800000000000000
-      internalID: 8330931603240133573
+      spriteID: ba8e2926637da5f20800000000000000
+      internalID: 3412276296268572843
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PaletteBig_0: 8330931603240133573
+      DoublePanel_0: 3412276296268572843
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
