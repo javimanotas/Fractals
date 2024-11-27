@@ -1,41 +1,94 @@
 # Fractals
-2D and 3D Fractal Rendering Program made with Unity
 
-The main goal of this project is to redesign the user interface for the fractal rendering program I made in high school when I learned about complex numbers (see `Screenshots/Old/` if you want to know how it looked back then).
+A **2D and 3D real-time fractal rendering program** developed with Unity.
 
-## Disclaimer
-This fractal rendering program is well optimized. However, enabling high-quality settings can result in a VERY SIGNIFICANT GPU usage.
+> [!NOTE]  
+> Unfortunately, only the Windows platform supports double precision on decimal values in compute shaders. This limitation prevents other platforms from zooming as deeply into the fractals.
 
-## 2D
-![Mandelbrot](Assets/Screenshots/Mandelbrot.png)
-![Julia](Assets/Screenshots/Julia.png)
+> [!WARNING]  
+> Even though the program is optimized, enabling high-quality settings can result in very expensive GPU calls, which might cause the program to crash. Please read this document carefully before using the program.
 
+---
 
-### Rendering
+## 2D Fractals
 
-The fractals are rendered with a compute shader. Unfortunately only Windows supports double precision floating point numbers so you'll have less quality on the other platforms.
+### Screenshots
+![Mandelbrot Set](Assets/Screenshots/Mandelbrot.png)  
+*Mandelbrot Set Example*
 
-The fractals are defined with the following series:
+![Julia Set](Assets/Screenshots/Julia.png)  
+*Julia Set Example*
 
-$$ f_0 = z $$
+### Fractal Equation
 
-$$ f_n = p(f_{n-1}) + f_0 $$
+The fractals are defined using the following recursive series:
 
-where `p` is a polynomial (with a default value of `p(x) = x^2`) and `z` is a point on the complex plane.
+$$ f_0 = z $$  
+$$ f_{n+1} = p(f_n) + f_0 $$
 
-If you enable Julia, the equation will be replaced with the following:
+- `p` is a polynomial, which defaults to `p(x) = x^2`.
+- `z` is the point in the complex plane you want to calculate the color for.
 
-$$ f_0 = z $$
+If the **Julia mode** is enabled, the equation is modified as follows:
 
-$$ f_n = p(f_{n-1}) + c $$
+$$ f_0 = z $$  
+$$ f_{n+1} = p(f_n) + c $$
 
-where `c` is a constant equal for all of the points.
+- `c` is a constant value applied uniformly across all points.
 
-The program calculates how many iterations you need to apply to diverge to infinity (you can change the default value of the maximum number of iterations to calculate that).
+---
 
-You can also specify the number of samples used to color each pixel. Be VERY CAREFUL when changing this parameter because it multiplies the WHOLE rendering time by n. It can lead to MASSIVE GPU usage and even cause the program to close due to making VERY EXPENSIVE dispatches on the graphics card. So, if you are just experimenting with different fractal configurations that you are unsure will render smoothly, it SHOULD HAVE a value of 1.
+### Navigation and Interaction
 
-## 3D
-![Mandelbrot](Assets/Screenshots/Mandelbulb.png)
-![Julia (green)](Assets/Screenshots/3DGreenJulia.png)
-![Julia (orange)](Assets/Screenshots/3DOrangeJulia.png)
+- Use the **left mouse button** to move around the fractal.
+- Use the **mouse wheel** to zoom in and out.
+- Alternatively, you can use the **UI input fields** to navigate.
+- The complex plane can be **inverted** (raising all points to the power of `-1`).
+
+> [!TIP]  
+> You can zoom into a specific area by creating a rectangle with the **right mouse button pressed** over the region.
+
+---
+
+### Rendering Options
+
+- The program computes how many iterations are required for a point to diverge to infinity. You can adjust the **maximum number of iterations** to control the rendering.
+> [!WARNING] 
+> Higher iteration limits can be computationally expensive, especially if many black points (points belonging to the fractal set) are visible on the screen.
+
+- You can enable **antialiasing** to smooth the fractal edges by specifying the number of samples per pixel.
+> [!CAUTION]  
+> The rendering time increases linearly with the number of antialiasing samples. For example, 4 samples per pixel will quadruple the rendering time. Adjust this setting **CAREFULLY**.
+
+> [!NOTE]  
+> If you are unsure about other setting's impact, leave the rendering options with their default value to ensure program stability.
+
+---
+
+## 3D Fractals
+
+### Screenshots
+![3D Mandelbulb](Assets/Screenshots/Mandelbulb.png)  
+*Mandelbulb Example*
+
+![3D Julia (Green)](Assets/Screenshots/3DGreenJulia.png)  
+*Green 3D Julia Example*
+
+![3D Julia (Orange)](Assets/Screenshots/3DOrangeJulia.png)  
+*Orange 3D Julia Example*
+
+---
+
+### Rendering Technique
+
+The 3D fractals are rendered using a technique called [ray marching](https://iquilezles.org/articles/raymarchingdf/), which uses **signed distance functions (SDFs)**. These [SDFs](https://iquilezles.org/articles/distfunctions/) are derived from their 2D fractal counterparts.
+
+> [!TIP]  
+> 3D fractals may lose significant detail at medium or low resolutions (e.g., 1080p or lower). To achieve sharper visuals, increase the resolution scale in the settings to more than 100%.
+
+---
+
+## License
+
+This project is distributed under the [MIT License](LICENSE).  
+Feel free to use and modify it according to the license terms.
