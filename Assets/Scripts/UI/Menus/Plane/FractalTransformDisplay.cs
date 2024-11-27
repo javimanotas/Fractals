@@ -8,13 +8,15 @@ namespace Fractals.UI
     {
         [SerializeField] FractalDispatcher2D Dispatcher;
 
-        [SerializeField] TextMeshProUGUI XCoordinate;
+        [SerializeField] TMP_InputField XCoordinate;
 
-        [SerializeField] TextMeshProUGUI YCoordinate;
+        [SerializeField] TMP_InputField YCoordinate;
 
-        [SerializeField] TextMeshProUGUI Size;
+        [SerializeField] TMP_InputField Size;
 
-        public void Update()
+        void Start() => Dispatcher.OnChangeTransform += UpdateText;
+
+        void UpdateText()
         {
             static string Format(double d) => d.ToString();
 

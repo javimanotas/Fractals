@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Fractals
@@ -8,13 +9,17 @@ namespace Fractals
         // Needs to be an array in order to be sent to a buffer
         readonly FractalTransform2D[] _data = new FractalTransform2D[1];
 
+        public event Action OnChangeTransform;
+
         public FractalTransform2D FractalTransform
         {
             get => _data[0];
             set
             {
+
                 AreChangesOnParameters = true;
                 _data[0] = value;
+                OnChangeTransform?.Invoke();
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PLATFORM_STANDALONE_WIN
                 Buffer.SetData(_data);
