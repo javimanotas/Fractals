@@ -1,0 +1,6 @@
+!(Mandelbrot)[Mandelbrot.png]
+!(Julia)[Julia.png]
+!(Inverted julia)[InvertedJulia.png]
+!(Mandelbulb)[Mandelbulb.png]
+!(3D Julia (Green))[3DGreenJulia.png]
+!(3D Julia (Orange))[3DOrangeJulia.png]
