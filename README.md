@@ -7,9 +7,9 @@ The main goal of this project is to redesign the user interface for the fractal 
 This fractal rendering program is well optimized. However, enabling high-quality settings can result in a VERY SIGNIFICANT GPU usage.
 
 ## 2D
-### Achieved Results
-![Zoomed Mandelbrot](Screenshots/Remake/ZoomedMandelbrot.png)
-![Julia](Screenshots/Remake/Julia.png)
+![Mandelbrot](Assets/Screenshots/Mandelbrot.png)
+![Julia](Assets/Screenshots/Julia.png)
+
 
 ### Rendering
 
@@ -35,5 +35,7 @@ The program calculates how many iterations you need to apply to diverge to infin
 
 You can also specify the number of samples used to color each pixel. Be VERY CAREFUL when changing this parameter because it multiplies the WHOLE rendering time by n. It can lead to MASSIVE GPU usage and even cause the program to close due to making VERY EXPENSIVE dispatches on the graphics card. So, if you are just experimenting with different fractal configurations that you are unsure will render smoothly, it SHOULD HAVE a value of 1.
 
-# TO DO
- - UI for the 3D fractals
+## 3D
+![Mandelbrot](Assets/Screenshots/Mandelbulb.png)
+![Julia (green)](Assets/Screenshots/3DGreenJulia.png)
+![Julia (orange)](Assets/Screenshots/3DOrangeJulia.png)
