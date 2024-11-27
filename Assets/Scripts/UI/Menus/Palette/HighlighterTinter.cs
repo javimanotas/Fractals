@@ -10,11 +10,19 @@ namespace Fractals.UI
     {
         Image _image;
 
+        [SerializeField] bool Bright = false;
+
         public void SetColor(Color color)
         {
             if (_image == null)
             {
                 _image = GetComponent<Image>();
+            }
+
+            if (Bright)
+            {
+                Color.RGBToHSV(color, out var h, out var _, out var _);
+                color = Color.HSVToRGB(h, 1, 1);
             }
 
             _image.color = color.WithAlpha(_image.color.a);
