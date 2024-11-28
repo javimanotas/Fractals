@@ -4445,7 +4445,7 @@ MonoBehaviour:
   MinValue: 1
   MaxValue: 2500
   Default: 100
-  SaveName: Maximum iterations
+  SaveName: 
 --- !u!1 &440476787
 GameObject:
   m_ObjectHideFlags: 0
@@ -12520,7 +12520,7 @@ MonoBehaviour:
   MinValue: 1
   MaxValue: 9
   Default: 1
-  SaveName: Antialiasing samples
+  SaveName: 
 --- !u!1 &1255717120
 GameObject:
   m_ObjectHideFlags: 0
