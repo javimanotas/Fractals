@@ -85,3 +85,11 @@ The 3D fractals are rendered using a technique called [ray marching](https://iqu
 
 > [!TIP]  
 > 3D fractals may lose significant detail at medium or low resolutions (e.g., 1080p or lower). To achieve sharper visuals, increase the resolution scale in the settings to more than 100%.
+
+---
+
+### Navigation and Interaction
+
+- Use WASD to move the camera forward/backward and to the right/left.
+- Use QE to move the camera up/down.
+- Use arrow keys to rotate the camera.
